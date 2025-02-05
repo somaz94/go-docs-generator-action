@@ -60,21 +60,37 @@ jobs:
           FEATURES: Feature 1,Feature 2,Feature 3
           REQUIREMENTS: Go 1.21 or higher
           INSTALLATION_STEPS: go get github.com/somaz94/go-docs-generator-action
-          USAGE_EXAMPLE: |
-            uses: somaz94/go-docs-generator-action@v1
-            with:
-              project_name: 'My Project'
-              github_repo: 'username/my-project'
-              marketplace_name: 'My Action'
-              marketplace_slug: 'my-action'
-              template_names: 'default,detailed'
-              description: 'My awesome project'
-              features: 'Feature 1,Feature 2,Feature 3'
           LANGUAGE: yaml
           LICENSE: MIT
           CONTRIBUTING_MESSAGE: Contributions are welcome!
           CONFIG_OPTIONS: source_path:string:.:Source code path,output_path:string:docs:Output directory
           CONTRIBUTORS: somaz94:Maintainer,john:Developer
+          USAGE_EXAMPLE: |
+            uses: somaz94/go-docs-generator-action@v1
+            with:
+              output_path: docs
+              template_type: readme
+              template_names: default,detailed
+              format: markdown
+              project_name: 'My Project'
+              github_repo: 'username/my-project'
+              marketplace_name: 'My Action'
+              marketplace_slug: 'my-action'
+              description: 'My awesome project'
+              features: 'Feature 1,Feature 2,Feature 3'
+              requirements: 'Go 1.21 or higher'
+              installation_steps: 'go get github.com/somaz94/go-docs-generator-action'
+              usage_example: |
+                uses: somaz94/go-docs-generator-action@v1
+                with:
+                  output_path: docs
+                  template_type: readme
+                  template_names: default,detailed
+                  format: markdown
+                  project_name: 'My Project'
+                  github_repo: 'username/my-project'
+                  marketplace_name: 'My Action'
+                  marketplace_slug: 'my-action'
         run: |
           docker run \
           --env INPUT_OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
