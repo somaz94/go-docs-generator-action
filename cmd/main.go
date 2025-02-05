@@ -85,6 +85,11 @@ func run(config Config) error {
 		return fmt.Errorf("failed to execute template: %w", err)
 	}
 
+	// Create output directory if it doesn't exist
+	if err := os.MkdirAll(config.OutputPath, 0755); err != nil {
+		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
 	// Write output
 	outputPath := filepath.Join(config.OutputPath, "README.md")
 	if err := os.WriteFile(outputPath, []byte(result), 0644); err != nil {
