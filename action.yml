@@ -78,7 +78,6 @@ runs:
   env:
     OUTPUT_PATH: ${{ inputs.output_path }}
     TEMPLATE_TYPE: ${{ inputs.template_type }}
-    TEMPLATE_NAME: ${{ inputs.template_name }}
     FORMAT: ${{ inputs.format }}
     PROJECT_NAME: ${{ inputs.project_name }}
     GITHUB_REPO: ${{ inputs.github_repo }}
