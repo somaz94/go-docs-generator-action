@@ -27,6 +27,7 @@ type DetailedReadmeData struct {
 	ConfigOptions     []ConfigOption
 	License           string
 	Contributors      []Contributor
+	Contributing      string // 추가
 }
 
 // ConfigOption represents a configuration option
