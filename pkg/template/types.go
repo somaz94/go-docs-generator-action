@@ -6,6 +6,8 @@ type ReadmeData struct {
 	GitHubRepo      string
 	MarketplaceName string
 	MarketplaceSlug string
+	Description     string
+	Features        []string
 	License         string
 	Contributing    string
 }

@@ -92,6 +92,8 @@ func run(config Config) error {
 		case "default":
 			data = &template.ReadmeData{
 				ProjectName:     config.ProjectName,
+				Description:     config.Description,
+				Features:        config.Features,
 				GitHubRepo:      config.GitHubRepo,
 				MarketplaceName: config.MarketplaceName,
 				MarketplaceSlug: config.MarketplaceSlug,
