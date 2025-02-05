@@ -1,20 +1,23 @@
 package template
 
-// ReadmeData represents the data structure for simple README template
-type ReadmeData struct {
-	ProjectName     string
-	GitHubRepo      string
-	MarketplaceName string
-	MarketplaceSlug string
-	Description     string
-	Features        []string
-	License         string
-	Contributing    string
-}
+// // ReadmeData represents the data structure for simple README template
+// type ReadmeData struct {
+// 	ProjectName     string
+// 	GitHubRepo      string
+// 	MarketplaceName string
+// 	MarketplaceSlug string
+// 	Description     string
+// 	Features        []string
+// 	License         string
+// 	Contributing    string
+// }
 
 // DetailedReadmeData represents the data structure for detailed README template
 type DetailedReadmeData struct {
 	ProjectName       string
+	GitHubRepo        string
+	MarketplaceName   string
+	MarketplaceSlug   string
 	Description       string
 	Features          []string
 	Requirements      string
