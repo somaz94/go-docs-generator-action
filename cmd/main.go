@@ -27,6 +27,8 @@ type Config struct {
 	Language            string
 	License             string
 	ContributingMessage string
+	ConfigOptions       []template.ConfigOption
+	Contributors        []template.Contributor
 }
 
 func main() {
@@ -34,6 +36,38 @@ func main() {
 	features := strings.Split(getEnvWithDefault("INPUT_FEATURES", ""), ",")
 	if features[0] == "" {
 		features = nil
+	}
+
+	// ConfigOptions 파싱 (예: "name:type:default:description,name2:type2:default2:description2")
+	var configOptions []template.ConfigOption
+	configOptionsStr := getEnvWithDefault("INPUT_CONFIG_OPTIONS", "")
+	if configOptionsStr != "" {
+		for _, opt := range strings.Split(configOptionsStr, ",") {
+			parts := strings.Split(opt, ":")
+			if len(parts) == 4 {
+				configOptions = append(configOptions, template.ConfigOption{
+					Name:        parts[0],
+					Type:        parts[1],
+					Default:     parts[2],
+					Description: parts[3],
+				})
+			}
+		}
+	}
+
+	// Contributors 파싱 (예: "name:role,name2:role2")
+	var contributors []template.Contributor
+	contributorsStr := getEnvWithDefault("INPUT_CONTRIBUTORS", "")
+	if contributorsStr != "" {
+		for _, cont := range strings.Split(contributorsStr, ",") {
+			parts := strings.Split(cont, ":")
+			if len(parts) == 2 {
+				contributors = append(contributors, template.Contributor{
+					Name: parts[0],
+					Role: parts[1],
+				})
+			}
+		}
 	}
 
 	config := Config{
@@ -53,6 +87,8 @@ func main() {
 		Language:            getEnvWithDefault("INPUT_LANGUAGE", "go"),
 		License:             getEnvWithDefault("INPUT_LICENSE", "MIT"),
 		ContributingMessage: getEnvWithDefault("INPUT_CONTRIBUTING_MESSAGE", "Contributions are welcome! Please feel free to submit a Pull Request"),
+		ConfigOptions:       configOptions,
+		Contributors:        contributors,
 	}
 
 	if config.ProjectName == "" || config.GitHubRepo == "" || config.MarketplaceName == "" || config.MarketplaceSlug == "" {
@@ -89,18 +125,7 @@ func run(config Config) error {
 		// Prepare data based on template type
 		var data interface{}
 		switch templateName {
-		case "default":
-			data = &template.ReadmeData{
-				ProjectName:     config.ProjectName,
-				Description:     config.Description,
-				Features:        config.Features,
-				GitHubRepo:      config.GitHubRepo,
-				MarketplaceName: config.MarketplaceName,
-				MarketplaceSlug: config.MarketplaceSlug,
-				License:         config.License,
-				Contributing:    config.ContributingMessage,
-			}
-		case "detailed":
+		case "default", "detailed":
 			data = &template.DetailedReadmeData{
 				ProjectName:       config.ProjectName,
 				Description:       config.Description,
@@ -109,21 +134,9 @@ func run(config Config) error {
 				InstallationSteps: config.InstallationSteps,
 				Language:          config.Language,
 				UsageExample:      config.UsageExample,
-				ConfigOptions: []template.ConfigOption{
-					{
-						Name:        "source_path",
-						Type:        "string",
-						Default:     ".",
-						Description: "Source code path",
-					},
-				},
-				License: config.License,
-				Contributors: []template.Contributor{
-					{
-						Name: "somaz94",
-						Role: "Maintainer",
-					},
-				},
+				ConfigOptions:     config.ConfigOptions,
+				License:           config.License,
+				Contributors:      config.Contributors,
 			}
 		}
 

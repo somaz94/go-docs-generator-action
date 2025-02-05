@@ -63,6 +63,14 @@ inputs:
     description: 'Contributing message'
     required: false
     default: 'Contributions are welcome! Please feel free to submit a Pull Request'
+  config_options:
+    description: 'Configuration options (format: name:type:default:description,name2:type2:default2:description2)'
+    required: false
+    default: ''
+  contributors:
+    description: 'Contributors list (format: name:role,name2:role2)'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -85,6 +93,8 @@ runs:
     USAGE_EXAMPLE: ${{ inputs.usage_example }}
     LANGUAGE: ${{ inputs.language }}
     TEMPLATE_NAMES: ${{ inputs.template_names }}
+    CONFIG_OPTIONS: ${{ inputs.config_options }}
+    CONTRIBUTORS: ${{ inputs.contributors }}
 
 branding:
   icon: 'book'

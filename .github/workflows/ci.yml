@@ -61,6 +61,8 @@ jobs:
           FEATURES: Feature 1,Feature 2,Feature 3
           LICENSE: MIT
           CONTRIBUTING_MESSAGE: Contributions are welcome!
+          config_options: "source_path:string:.:Source code path,output_path:string:docs:Output directory"
+          contributors: "somaz94:Maintainer,john:Developer"
         run: |
           docker run \
           --env INPUT_OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
@@ -75,6 +77,8 @@ jobs:
           --env INPUT_FEATURES="${{ env.FEATURES }}" \
           --env INPUT_LICENSE="${{ env.LICENSE }}" \
           --env INPUT_CONTRIBUTING_MESSAGE="${{ env.CONTRIBUTING_MESSAGE }}" \
+          --env INPUT_CONFIG_OPTIONS="${{ env.CONFIG_OPTIONS }}" \
+          --env INPUT_CONTRIBUTORS="${{ env.CONTRIBUTORS }}" \
           --volume ${{ github.workspace }}:/app \
           --rm ${{ env.TEST_TAG }}
 
