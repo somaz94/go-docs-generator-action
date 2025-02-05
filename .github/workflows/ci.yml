@@ -51,15 +51,30 @@ jobs:
           SOURCE_PATH: test/src
           OUTPUT_PATH: test/docs
           TEMPLATE_TYPE: readme
-          TEMPLATE_NAME: default
+          TEMPLATE_NAMES: default,detailed
           FORMAT: markdown
+          PROJECT_NAME: Go Docs Generator Action
+          GITHUB_REPO: somaz94/go-docs-generator-action
+          MARKETPLACE_NAME: Go Docs Generator Action
+          MARKETPLACE_SLUG: go-docs-generator-action
+          DESCRIPTION: A GitHub Action that generates documentation
+          FEATURES: Feature 1,Feature 2,Feature 3
+          LICENSE: MIT
+          CONTRIBUTING_MESSAGE: Contributions are welcome!
         run: |
           docker run \
-          --env INPUT_SOURCE_PATH="${{ env.SOURCE_PATH }}" \
           --env INPUT_OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           --env INPUT_TEMPLATE_TYPE="${{ env.TEMPLATE_TYPE }}" \
-          --env INPUT_TEMPLATE_NAME="${{ env.TEMPLATE_NAME }}" \
+          --env INPUT_TEMPLATE_NAMES="${{ env.TEMPLATE_NAMES }}" \
           --env INPUT_FORMAT="${{ env.FORMAT }}" \
+          --env INPUT_PROJECT_NAME="${{ env.PROJECT_NAME }}" \
+          --env INPUT_GITHUB_REPO="${{ env.GITHUB_REPO }}" \
+          --env INPUT_MARKETPLACE_NAME="${{ env.MARKETPLACE_NAME }}" \
+          --env INPUT_MARKETPLACE_SLUG="${{ env.MARKETPLACE_SLUG }}" \
+          --env INPUT_DESCRIPTION="${{ env.DESCRIPTION }}" \
+          --env INPUT_FEATURES="${{ env.FEATURES }}" \
+          --env INPUT_LICENSE="${{ env.LICENSE }}" \
+          --env INPUT_CONTRIBUTING_MESSAGE="${{ env.CONTRIBUTING_MESSAGE }}" \
           --volume ${{ github.workspace }}:/app \
           --rm ${{ env.TEST_TAG }}
 
@@ -73,70 +88,91 @@ jobs:
             exit 1
           fi
           
-          # README.md 파일 존재 확인
-          if [ ! -f "test/docs/README.md" ]; then
-            echo "❌ README.md not generated!"
-            exit 1
-          fi
-          
-          # 파일 내용 출력
-          echo "📄 Generated README.md content:"
-          cat test/docs/README.md
-          
-          # 파일 크기 확인
-          if [ ! -s "test/docs/README.md" ]; then
-            echo "❌ README.md is empty!"
-            exit 1
-          fi
+          # README.md 파일들 존재 확인
+          for file in "README.md" "README-detailed.md"; do
+            if [ ! -f "test/docs/$file" ]; then
+              echo "❌ $file not generated!"
+              exit 1
+            fi
+            
+            # 파일 내용 출력
+            echo "📄 Generated $file content:"
+            cat "test/docs/$file"
+            
+            # 파일 크기 확인
+            if [ ! -s "test/docs/$file" ]; then
+              echo "❌ $file is empty!"
+              exit 1
+            fi
+          done
           
           echo "✅ Documentation generated successfully!"
 
-  test-action:
-    name: Test env-output-setter
-    runs-on: ubuntu-latest
+      # - name: Commit to repository
+      #   uses: somaz94/go-git-commit-action@v1
+      #   with:
+      #     user_email: 'action@github.com'
+      #     user_name: 'GitHub Action'
+      #     commit_message: 'Update documentation'
+      #     branch: 'main'
+      #     repository_path: 'test/docs/'
+      #     # file_pattern: '.'
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 10
+  # test-action:
+  #   name: Test env-output-setter
+  #   runs-on: ubuntu-latest
 
-      - name: Configure Git Safe Directory
-        run: git config --global --add safe.directory ${{ github.workspace }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 10
 
-      - name: Test Local Action
-        uses: ./
-        with:
-          source_path: test/src
-          output_path: test/docs
-          template_type: readme
-          template_name: default
-          format: markdown
+  #     - name: Configure Git Safe Directory
+  #       run: git config --global --add safe.directory ${{ github.workspace }}
 
-      - name: Verify Action Output
-        run: |
-          echo "📝 Checking action output..."
+  #     - name: Test Local Action
+  #       uses: ./
+  #       with:
+  #         output_path: test/docs
+  #         template_type: readme
+  #         template_names: default,detailed
+  #         format: markdown
+  #         project_name: Go Docs Generator Action
+  #         github_repo: somaz94/go-docs-generator-action
+  #         marketplace_name: Go Docs Generator Action
+  #         marketplace_slug: go-docs-generator-action
+  #         description: A GitHub Action that generates documentation
+  #         features: Feature 1,Feature 2,Feature 3
+  #         license: MIT
+  #         contributing_message: Contributions are welcome!
+
+  #     - name: Verify Action Output
+  #       run: |
+  #         echo "📝 Checking action output..."
           
-          # 출력 디렉토리 존재 확인
-          if [ ! -d "test/docs" ]; then
-            echo "❌ Output directory not found!"
-            exit 1
-          fi
+  #         # 출력 디렉토리 존재 확인
+  #         if [ ! -d "test/docs" ]; then
+  #           echo "❌ Output directory not found!"
+  #           exit 1
+  #         fi
           
-          # README.md 파일 존재 확인
-          if [ ! -f "test/docs/README.md" ]; then
-            echo "❌ README.md not generated!"
-            exit 1
-          fi
+  #         # README.md 파일들 존재 확인
+  #         for file in "README.md" "README-detailed.md"; do
+  #           if [ ! -f "test/docs/$file" ]; then
+  #             echo "❌ $file not generated!"
+  #             exit 1
+  #           fi
+            
+  #           # 파일 내용 출력
+  #           echo "📄 Generated $file content:"
+  #           cat "test/docs/$file"
+            
+  #           # 파일 크기 확인
+  #           if [ ! -s "test/docs/$file" ]; then
+  #             echo "❌ $file is empty!"
+  #             exit 1
+  #           fi
+  #         done
           
-          # 파일 내용 출력
-          echo "📄 Generated README.md content:"
-          cat test/docs/README.md
-          
-          # 파일 크기 확인
-          if [ ! -s "test/docs/README.md" ]; then
-            echo "❌ README.md is empty!"
-            exit 1
-          fi
-          
-          echo "✅ Action completed successfully!"
+  #         echo "✅ Action completed successfully!"

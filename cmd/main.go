@@ -5,25 +5,58 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/somaz94/go-docs-generator-action/pkg/template"
 )
 
 type Config struct {
-	SourcePath   string
-	OutputPath   string
-	TemplateType string
-	TemplateName string
-	Format       string
+	OutputPath          string
+	TemplateType        string
+	TemplateNames       []string
+	Format              string
+	ProjectName         string
+	GitHubRepo          string
+	MarketplaceName     string
+	MarketplaceSlug     string
+	Description         string
+	Features            []string
+	Requirements        string
+	InstallationSteps   string
+	UsageExample        string
+	Language            string
+	License             string
+	ContributingMessage string
 }
 
 func main() {
+	templateNames := strings.Split(getEnvWithDefault("INPUT_TEMPLATE_NAMES", "default"), ",")
+	features := strings.Split(getEnvWithDefault("INPUT_FEATURES", ""), ",")
+	if features[0] == "" {
+		features = nil
+	}
+
 	config := Config{
-		SourcePath:   getEnvWithDefault("INPUT_SOURCE_PATH", "."),
-		OutputPath:   getEnvWithDefault("INPUT_OUTPUT_PATH", "docs"),
-		TemplateType: getEnvWithDefault("INPUT_TEMPLATE_TYPE", "readme"),
-		TemplateName: getEnvWithDefault("INPUT_TEMPLATE_NAME", "default"),
-		Format:       getEnvWithDefault("INPUT_FORMAT", "markdown"),
+		OutputPath:          getEnvWithDefault("INPUT_OUTPUT_PATH", "docs"),
+		TemplateType:        getEnvWithDefault("INPUT_TEMPLATE_TYPE", "readme"),
+		TemplateNames:       templateNames,
+		Format:              getEnvWithDefault("INPUT_FORMAT", "markdown"),
+		ProjectName:         os.Getenv("INPUT_PROJECT_NAME"),
+		GitHubRepo:          os.Getenv("INPUT_GITHUB_REPO"),
+		MarketplaceName:     os.Getenv("INPUT_MARKETPLACE_NAME"),
+		MarketplaceSlug:     os.Getenv("INPUT_MARKETPLACE_SLUG"),
+		Description:         getEnvWithDefault("INPUT_DESCRIPTION", ""),
+		Features:            features,
+		Requirements:        getEnvWithDefault("INPUT_REQUIREMENTS", ""),
+		InstallationSteps:   getEnvWithDefault("INPUT_INSTALLATION_STEPS", ""),
+		UsageExample:        getEnvWithDefault("INPUT_USAGE_EXAMPLE", ""),
+		Language:            getEnvWithDefault("INPUT_LANGUAGE", "go"),
+		License:             getEnvWithDefault("INPUT_LICENSE", "MIT"),
+		ContributingMessage: getEnvWithDefault("INPUT_CONTRIBUTING_MESSAGE", "Contributions are welcome! Please feel free to submit a Pull Request"),
+	}
+
+	if config.ProjectName == "" || config.GitHubRepo == "" || config.MarketplaceName == "" || config.MarketplaceSlug == "" {
+		log.Fatal("Required inputs are missing")
 	}
 
 	if err := run(config); err != nil {
@@ -39,63 +72,77 @@ func getEnvWithDefault(key, defaultValue string) string {
 }
 
 func run(config Config) error {
-	// Initialize template manager
 	tm := template.NewTemplateManager("templates")
-
-	// Load template
-	if err := tm.LoadTemplate(config.TemplateType, config.TemplateName); err != nil {
-		return fmt.Errorf("failed to load template: %w", err)
-	}
-
-	// Prepare example data (실제로는 프로젝트에서 데이터를 수집해야 함)
-	data := &template.ReadmeData{
-		ProjectName: "Go Docs Generator Action",
-		Description: "Automatically generate documentation for your project",
-		Features: []string{
-			"README generation",
-			"API documentation",
-			"Example code documentation",
-		},
-		Requirements:      "Go 1.21 or higher",
-		InstallationSteps: "go get github.com/yourusername/go-docs-generator-action",
-		Language:          "go",
-		UsageExample: `func main() {
-    fmt.Println("Hello, Documentation!")
-}`,
-		ConfigOptions: []template.ConfigOption{
-			{
-				Name:        "source_path",
-				Type:        "string",
-				Default:     ".",
-				Description: "Source code path",
-			},
-		},
-		License: "MIT",
-		Contributors: []template.Contributor{
-			{
-				Name: "somaz94",
-				Role: "Maintainer",
-			},
-		},
-	}
-
-	// Execute template
-	result, err := tm.Execute(config.TemplateType, config.TemplateName, data)
-	if err != nil {
-		return fmt.Errorf("failed to execute template: %w", err)
-	}
 
 	// Create output directory if it doesn't exist
 	if err := os.MkdirAll(config.OutputPath, 0755); err != nil {
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
-	// Write output
-	outputPath := filepath.Join(config.OutputPath, "README.md")
-	if err := os.WriteFile(outputPath, []byte(result), 0644); err != nil {
-		return fmt.Errorf("failed to write output: %w", err)
+	// Process each template
+	for _, templateName := range config.TemplateNames {
+		// Load template
+		if err := tm.LoadTemplate(config.TemplateType, templateName); err != nil {
+			return fmt.Errorf("failed to load template %s: %w", templateName, err)
+		}
+
+		// Prepare data based on template type
+		var data interface{}
+		switch templateName {
+		case "default":
+			data = &template.ReadmeData{
+				ProjectName:     config.ProjectName,
+				GitHubRepo:      config.GitHubRepo,
+				MarketplaceName: config.MarketplaceName,
+				MarketplaceSlug: config.MarketplaceSlug,
+				License:         config.License,
+				Contributing:    config.ContributingMessage,
+			}
+		case "detailed":
+			data = &template.DetailedReadmeData{
+				ProjectName:       config.ProjectName,
+				Description:       config.Description,
+				Features:          config.Features,
+				Requirements:      config.Requirements,
+				InstallationSteps: config.InstallationSteps,
+				Language:          config.Language,
+				UsageExample:      config.UsageExample,
+				ConfigOptions: []template.ConfigOption{
+					{
+						Name:        "source_path",
+						Type:        "string",
+						Default:     ".",
+						Description: "Source code path",
+					},
+				},
+				License: config.License,
+				Contributors: []template.Contributor{
+					{
+						Name: "somaz94",
+						Role: "Maintainer",
+					},
+				},
+			}
+		}
+
+		// Execute template
+		result, err := tm.Execute(config.TemplateType, templateName, data)
+		if err != nil {
+			return fmt.Errorf("failed to execute template %s: %w", templateName, err)
+		}
+
+		// Write output
+		outputFile := "README.md"
+		if templateName != "default" {
+			outputFile = fmt.Sprintf("README-%s.md", templateName)
+		}
+		outputPath := filepath.Join(config.OutputPath, outputFile)
+		if err := os.WriteFile(outputPath, []byte(result), 0644); err != nil {
+			return fmt.Errorf("failed to write output for %s: %w", templateName, err)
+		}
+
+		fmt.Printf("Documentation generated successfully: %s\n", outputPath)
 	}
 
-	fmt.Printf("Documentation generated successfully: %s\n", outputPath)
 	return nil
 }

@@ -3,10 +3,6 @@ description: 'Automatically generate documentation for your project'
 author: 'somaz94'
 
 inputs:
-  source_path:
-    description: 'Source code path'
-    required: false
-    default: '.'
   output_path:
     description: 'Output documentation path'
     required: false
@@ -15,24 +11,80 @@ inputs:
     description: 'Template type (readme, api, examples)'
     required: false
     default: 'readme'
-  template_name:
-    description: 'Template name'
+  template_names:
+    description: 'Comma-separated list of template names to use (e.g., "default,detailed")'
     required: false
     default: 'default'
   format:
     description: 'Output format (markdown, html)'
     required: false
     default: 'markdown'
+  project_name:
+    description: 'Name of the project'
+    required: true
+  github_repo:
+    description: 'GitHub repository (e.g., somaz94/go-docs-generator-action)'
+    required: true
+  marketplace_name:
+    description: 'Name for GitHub Marketplace'
+    required: true
+  marketplace_slug:
+    description: 'Slug for GitHub Marketplace URL'
+    required: true
+  description:
+    description: 'Project description'
+    required: false
+    default: ''
+  features:
+    description: 'Comma-separated list of features'
+    required: false
+    default: ''
+  requirements:
+    description: 'Project requirements'
+    required: false
+    default: ''
+  installation_steps:
+    description: 'Installation instructions'
+    required: false
+    default: ''
+  usage_example:
+    description: 'Usage example code'
+    required: false
+    default: ''
+  language:
+    description: 'Programming language'
+    required: false
+    default: 'go'
+  license:
+    description: 'License type'
+    required: false
+    default: 'MIT'
+  contributing_message:
+    description: 'Contributing message'
+    required: false
+    default: 'Contributions are welcome! Please feel free to submit a Pull Request'
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    SOURCE_PATH: ${{ inputs.source_path }}
     OUTPUT_PATH: ${{ inputs.output_path }}
     TEMPLATE_TYPE: ${{ inputs.template_type }}
     TEMPLATE_NAME: ${{ inputs.template_name }}
     FORMAT: ${{ inputs.format }}
+    PROJECT_NAME: ${{ inputs.project_name }}
+    GITHUB_REPO: ${{ inputs.github_repo }}
+    MARKETPLACE_NAME: ${{ inputs.marketplace_name }}
+    MARKETPLACE_SLUG: ${{ inputs.marketplace_slug }}
+    LICENSE: ${{ inputs.license }}
+    CONTRIBUTING_MESSAGE: ${{ inputs.contributing_message }}
+    DESCRIPTION: ${{ inputs.description }}
+    FEATURES: ${{ inputs.features }}
+    REQUIREMENTS: ${{ inputs.requirements }}
+    INSTALLATION_STEPS: ${{ inputs.installation_steps }}
+    USAGE_EXAMPLE: ${{ inputs.usage_example }}
+    LANGUAGE: ${{ inputs.language }}
+    TEMPLATE_NAMES: ${{ inputs.template_names }}
 
 branding:
   icon: 'book'
