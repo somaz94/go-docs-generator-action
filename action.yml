@@ -1,21 +1,39 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Go Docs Generator'
+description: 'Automatically generate documentation for your project'
+author: 'somaz94'
 
-# Define your inputs here.
 inputs:
-  who-to-greet:
-    description: 'Your input description here'
-    required: true
-    default: 'World'
-
-# Define your outputs here.
-outputs:
-  greeting:
-    description: 'Your output description here'
+  source_path:
+    description: 'Source code path'
+    required: false
+    default: '.'
+  output_path:
+    description: 'Output documentation path'
+    required: false
+    default: 'docs'
+  template_type:
+    description: 'Template type (readme, api, examples)'
+    required: false
+    default: 'readme'
+  template_name:
+    description: 'Template name'
+    required: false
+    default: 'default'
+  format:
+    description: 'Output format (markdown, html)'
+    required: false
+    default: 'markdown'
 
 runs:
-  using: docker
-  image: Dockerfile
+  using: 'docker'
+  image: 'Dockerfile'
   env:
-    INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+    SOURCE_PATH: ${{ inputs.source_path }}
+    OUTPUT_PATH: ${{ inputs.output_path }}
+    TEMPLATE_TYPE: ${{ inputs.template_type }}
+    TEMPLATE_NAME: ${{ inputs.template_name }}
+    FORMAT: ${{ inputs.format }}
+
+branding:
+  icon: 'book'
+  color: 'blue'

@@ -1,11 +1,8 @@
-# Set the base image to use for subsequent instructions
-FROM alpine:3.21
+FROM golang:1.23-alpine
 
-# Set the working directory inside the container
-WORKDIR /usr/src
+WORKDIR /app
+COPY . .
 
-# Copy any source file(s) required for the action
-COPY entrypoint.sh .
+RUN go build -o /go-docs-generator-action cmd/main.go
 
-# Configure the container to be run as an executable
-ENTRYPOINT ["/usr/src/entrypoint.sh"]
+ENTRYPOINT ["/go-docs-generator-action"]

@@ -23,3 +23,9 @@ Thumbs.db
 .idea
 .vscode
 *.code-workspace
+
+# Binary
+go-docs-generator-action
+
+mkdir go-docs-generator-action
+cd go-docs-generator-action
