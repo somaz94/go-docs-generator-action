@@ -48,7 +48,6 @@ jobs:
 
       - name: Run the Container
         env:
-          SOURCE_PATH: test/src
           OUTPUT_PATH: test/docs
           TEMPLATE_TYPE: readme
           TEMPLATE_NAMES: default,detailed
@@ -59,10 +58,23 @@ jobs:
           MARKETPLACE_SLUG: go-docs-generator-action
           DESCRIPTION: A GitHub Action that generates documentation
           FEATURES: Feature 1,Feature 2,Feature 3
+          REQUIREMENTS: Go 1.21 or higher
+          INSTALLATION_STEPS: go get github.com/somaz94/go-docs-generator-action
+          USAGE_EXAMPLE: |
+            uses: somaz94/go-docs-generator-action@v1
+            with:
+              project_name: 'My Project'
+              github_repo: 'username/my-project'
+              marketplace_name: 'My Action'
+              marketplace_slug: 'my-action'
+              template_names: 'default,detailed'
+              description: 'My awesome project'
+              features: 'Feature 1,Feature 2,Feature 3'
+          LANGUAGE: yaml
           LICENSE: MIT
           CONTRIBUTING_MESSAGE: Contributions are welcome!
-          config_options: "source_path:string:.:Source code path,output_path:string:docs:Output directory"
-          contributors: "somaz94:Maintainer,john:Developer"
+          CONFIG_OPTIONS: source_path:string:.:Source code path,output_path:string:docs:Output directory
+          CONTRIBUTORS: somaz94:Maintainer,john:Developer
         run: |
           docker run \
           --env INPUT_OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
@@ -75,6 +87,10 @@ jobs:
           --env INPUT_MARKETPLACE_SLUG="${{ env.MARKETPLACE_SLUG }}" \
           --env INPUT_DESCRIPTION="${{ env.DESCRIPTION }}" \
           --env INPUT_FEATURES="${{ env.FEATURES }}" \
+          --env INPUT_REQUIREMENTS="${{ env.REQUIREMENTS }}" \
+          --env INPUT_INSTALLATION_STEPS="${{ env.INSTALLATION_STEPS }}" \
+          --env INPUT_USAGE_EXAMPLE="${{ env.USAGE_EXAMPLE }}" \
+          --env INPUT_LANGUAGE="${{ env.LANGUAGE }}" \
           --env INPUT_LICENSE="${{ env.LICENSE }}" \
           --env INPUT_CONTRIBUTING_MESSAGE="${{ env.CONTRIBUTING_MESSAGE }}" \
           --env INPUT_CONFIG_OPTIONS="${{ env.CONFIG_OPTIONS }}" \
