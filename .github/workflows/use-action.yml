@@ -1,0 +1,91 @@
+name: Example Workflow using Go Git Commit Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      run:
+        description: 'workflow run'
+        required: true
+        default: 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  acton-module:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout infrastructure repository
+        uses: actions/checkout@v4
+
+      - name: Create Test File
+        run: |
+          echo "$(date +%s)-$RANDOM" > test/test1.txt
+
+      - name: Generate documentation
+        uses: somaz94/go-docs-generator-action@v1
+        with:
+          output_path: docs
+          template_type: readme
+          template_names: default,detailed
+          format: markdown
+          project_name: 'My Project'
+          github_repo: 'username/my-project'
+          marketplace_name: 'My Action'
+          marketplace_slug: 'my-action'
+          description: 'My awesome project'
+          features: 'Feature 1,Feature 2,Feature 3'
+          requirements: 'Go 1.21 or higher'
+          installation_steps: 'go get github.com/somaz94/go-docs-generator-action'
+          usage_example: |
+            uses: somaz94/go-docs-generator-action@v1
+            with:
+              output_path: docs
+              template_type: readme
+              template_names: default,detailed
+              format: markdown
+              project_name: 'My Project'
+              github_repo: 'username/my-project'
+              marketplace_name: 'My Action'
+              marketplace_slug: 'my-action'
+
+      - name: Verify Output
+        run: |
+          echo "📝 Checking generated documentation..."
+          
+          # 출력 디렉토리 존재 확인
+          if [ ! -d "test/docs" ]; then
+            echo "❌ Output directory not found!"
+            exit 1
+          fi
+          
+          # README.md 파일들 존재 확인
+          for file in "README.md" "README-detailed.md"; do
+            if [ ! -f "test/docs/$file" ]; then
+              echo "❌ $file not generated!"
+              exit 1
+            fi
+            
+            # 파일 내용 출력z
+            echo "📄 Generated $file content:"
+            cat "test/docs/$file"
+            
+            # 파일 크기 확인
+            if [ ! -s "test/docs/$file" ]; then
+              echo "❌ $file is empty!"
+              exit 1
+            fi
+          done
+          
+          echo "✅ Documentation generated successfully!"
+
+      - name: Commit to repository
+        uses: somaz94/go-git-commit-action@v1
+        with:
+          user_email: 'action@github.com'
+          user_name: 'GitHub Action'
+          commit_message: 'Update documentation'
+          branch: 'main'
+          repository_path: 'test/docs/'
+          # file_pattern: '.'
+
