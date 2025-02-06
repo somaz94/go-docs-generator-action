@@ -64,18 +64,24 @@ jobs:
         run: |
           CURRENT_TAG=${{ github.ref_name }}
           MAJOR_VERSION="${CURRENT_TAG%%.*}"
+          COMMIT_SHA=$(git rev-parse ${{ github.sha }})
           
-          echo "Updating $MAJOR_VERSION to point to $CURRENT_TAG"
+          echo "Current commit SHA: $COMMIT_SHA"
+          echo "Updating $MAJOR_VERSION to point to $CURRENT_TAG at commit $COMMIT_SHA"
           
           # Configure git
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          # Ensure we're on the right commit
-          git checkout ${CURRENT_TAG}
+          # Ensure we're on main branch
+          git checkout main
+          git pull origin main
           
-          # Delete and recreate tag
+          # Delete old tags
           git push origin :refs/tags/${MAJOR_VERSION} || true
           git tag -d ${MAJOR_VERSION} || true
-          git tag -f ${MAJOR_VERSION} ${CURRENT_TAG}
-          git push origin -f refs/tags/${MAJOR_VERSION}
+          
+          # Create new tag
+          git tag -f ${MAJOR_VERSION} ${COMMIT_SHA}
+          git push origin -f ${MAJOR_VERSION}
+          git push origin main
