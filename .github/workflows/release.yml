@@ -79,7 +79,7 @@ jobs:
           
           # Delete old tags
           git tag -d ${MAJOR_VERSION} 
-          git push origin :refs/tags/${MAJOR_VERSION} 
+          git push origin -d ${MAJOR_VERSION}
 
           # Create new tag
           git tag -f ${MAJOR_VERSION} ${COMMIT_SHA}
