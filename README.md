@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/somaz94/go-docs-generator-action)](https://github.com/somaz94/go-docs-generator-action)
 ![Latest Tag](https://img.shields.io/github/v/tag/somaz94/go-docs-generator-action)
 ![Top Language](https://img.shields.io/github/languages/top/somaz94/go-docs-generator-action?color=green&logo=go&logoColor=b)
-[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Go%20Docs%20Generator%20Action-blue?logo=github)](https://github.com/marketplace/actions/go-docs-generator-action)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Go%20Docs%20Generator%20Action-blue?logo=github)](https://github.com/marketplace/actions/go-docs-generator)
 
 ## Overview
 
