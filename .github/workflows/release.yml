@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}  # 토큰 추가
 
       - name: Get previous tag
         id: previoustag
@@ -58,24 +59,23 @@ jobs:
           body: ${{ steps.read_changelog.outputs.changelog }}
 
       - name: "🏷️ Update major version tag"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CURRENT_TAG=${{ github.ref_name }}
-          # Extract major version (e.g., v1)
-          MAJOR_VERSION="${CURRENT_TAG%%.*}"  # v1.0.1 -> v1
+          MAJOR_VERSION="${CURRENT_TAG%%.*}"
           
+          echo "Updating $MAJOR_VERSION to point to $CURRENT_TAG"
+          
+          # Configure git
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          # Fetch all tags to ensure we have the latest state
-          git fetch --tags
+          # Ensure we're on the right commit
+          git checkout ${CURRENT_TAG}
           
-          # Get the commit SHA that the current tag points to
-          CURRENT_COMMIT=$(git rev-parse ${{ github.ref_name }})
-          
-          # Delete and update the major version tag
-          git tag -d $MAJOR_VERSION || true
-          git push origin :refs/tags/$MAJOR_VERSION || true
-          
-          # Create new tag pointing to the same commit as the current tag
-          git tag -a $MAJOR_VERSION $CURRENT_COMMIT -m "Update major version tag to ${CURRENT_TAG}"
-          git push origin $MAJOR_VERSION --force
+          # Delete and recreate tag
+          git push origin :refs/tags/${MAJOR_VERSION} || true
+          git tag -d ${MAJOR_VERSION} || true
+          git tag -f ${MAJOR_VERSION} ${CURRENT_TAG}
+          git push origin -f refs/tags/${MAJOR_VERSION}
