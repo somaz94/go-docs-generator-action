@@ -66,8 +66,16 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
+          # Fetch all tags to ensure we have the latest state
+          git fetch --tags
+          
+          # Get the commit SHA that the current tag points to
+          CURRENT_COMMIT=$(git rev-parse ${{ github.ref_name }})
+          
+          # Delete and update the major version tag
           git tag -d $MAJOR_VERSION || true
           git push origin :refs/tags/$MAJOR_VERSION || true
           
-          git tag -a $MAJOR_VERSION -m "Update major version tag to ${CURRENT_TAG}"
+          # Create new tag pointing to the same commit as the current tag
+          git tag -a $MAJOR_VERSION $CURRENT_COMMIT -m "Update major version tag to ${CURRENT_TAG}"
           git push origin $MAJOR_VERSION --force
