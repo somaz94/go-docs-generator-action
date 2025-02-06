@@ -57,7 +57,7 @@ jobs:
           
           # README.md 파일들 존재 확인
           for file in "README.md" "README-detailed.md"; do
-            if [ ! -f "tdocs/$file" ]; then
+            if [ ! -f "docs/$file" ]; then
               echo "❌ $file not generated!"
               exit 1
             fi
