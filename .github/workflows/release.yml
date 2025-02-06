@@ -41,8 +41,9 @@ jobs:
       - name: Read changelog
         id: read_changelog
         run: |
-          CHANGELOG=$(cat RELEASE.md)
-          echo "changelog=$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat RELEASE.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: "🚀 Create GitHub release"
         uses: actions/create-release@v1
