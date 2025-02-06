@@ -21,21 +21,22 @@ import (
 
 // DetailedReadmeData represents the data structure for detailed README template
 type DetailedReadmeData struct {
-	ProjectName       string
-	GitHubRepo        string
-	MarketplaceName   string
-	MarketplaceSlug   string
-	Description       string
-	Features          []string
-	Requirements      string
-	InstallationSteps string
-	Language          string
-	UsageExample      string
-	ConfigOptions     []ConfigOption
-	License           string
-	Contributors      []Contributor
-	Contributing      string
-	ActionConfig      bool
+	ProjectName         string
+	GitHubRepo          string
+	MarketplaceName     string
+	MarketplaceSlug     string
+	Description         string
+	Features            []string
+	Requirements        string
+	InstallationSteps   string
+	Language            string
+	UsageExample        string
+	ConfigOptions       []ConfigOption
+	License             string
+	Contributors        []Contributor
+	Contributing        string
+	ActionConfig        bool
+	ContributingMessage string
 }
 
 // ConfigOption represents a configuration option
