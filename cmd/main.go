@@ -148,6 +148,9 @@ func run(config Config) error {
 				ConfigOptions:     config.ConfigOptions,
 				License:           config.License,
 				Contributors:      config.Contributors,
+				GitHubRepo:        config.GitHubRepo,
+				MarketplaceName:   config.MarketplaceName,
+				MarketplaceSlug:   config.MarketplaceSlug,
 			}
 		}
 
