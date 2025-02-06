@@ -63,7 +63,8 @@ jobs:
           LANGUAGE: yaml
           LICENSE: MIT
           CONTRIBUTING_MESSAGE: Contributions are welcome!
-          CONFIG_OPTIONS: source_path:string:.:Source code path,output_path:string:docs:Output directory
+          # CONFIG_OPTIONS: source_path:string:.:Source code path,output_path:string:docs:Output directory
+          ACTION_CONFIG: true
           CONTRIBUTORS: somaz94:Maintainer,john:Developer
           USAGE_EXAMPLE: |
             uses: somaz94/go-docs-generator-action@v1
@@ -109,7 +110,7 @@ jobs:
           --env INPUT_LANGUAGE="${{ env.LANGUAGE }}" \
           --env INPUT_LICENSE="${{ env.LICENSE }}" \
           --env INPUT_CONTRIBUTING_MESSAGE="${{ env.CONTRIBUTING_MESSAGE }}" \
-          --env INPUT_CONFIG_OPTIONS="${{ env.CONFIG_OPTIONS }}" \
+          --env INPUT_ACTION_CONFIG="${{ env.ACTION_CONFIG }}" \
           --env INPUT_CONTRIBUTORS="${{ env.CONTRIBUTORS }}" \
           --volume ${{ github.workspace }}:/app \
           --rm ${{ env.TEST_TAG }}

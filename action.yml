@@ -71,6 +71,10 @@ inputs:
     description: 'Contributors list (format: name:role,name2:role2)'
     required: false
     default: ''
+  action_config:
+    description: 'Include action.yml inputs in configuration table (true/false)'
+    required: false
+    default: 'false'
 
 runs:
   using: 'docker'
@@ -94,7 +98,7 @@ runs:
     TEMPLATE_NAMES: ${{ inputs.template_names }}
     CONFIG_OPTIONS: ${{ inputs.config_options }}
     CONTRIBUTORS: ${{ inputs.contributors }}
-
+    ACTION_CONFIG: ${{ inputs.action_config }}
 branding:
   icon: 'book'
   color: 'blue'

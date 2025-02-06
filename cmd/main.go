@@ -29,6 +29,7 @@ type Config struct {
 	ContributingMessage string
 	ConfigOptions       []template.ConfigOption
 	Contributors        []template.Contributor
+	ActionConfig        bool
 }
 
 func main() {
@@ -89,6 +90,7 @@ func main() {
 		ContributingMessage: getEnvWithDefault("INPUT_CONTRIBUTING_MESSAGE", "Contributions are welcome! Please feel free to submit a Pull Request"),
 		ConfigOptions:       configOptions,
 		Contributors:        contributors,
+		ActionConfig:        getEnvWithDefault("INPUT_ACTION_CONFIG", "false") == "true",
 	}
 
 	if config.ProjectName == "" || config.GitHubRepo == "" || config.MarketplaceName == "" || config.MarketplaceSlug == "" {
@@ -113,6 +115,15 @@ func run(config Config) error {
 	// Create output directory if it doesn't exist
 	if err := os.MkdirAll(config.OutputPath, 0755); err != nil {
 		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
+	if config.ActionConfig {
+		actionInputs, err := template.GetActionInputs()
+		if err != nil {
+			log.Printf("Warning: failed to get action inputs: %v", err)
+		} else {
+			config.ConfigOptions = append(config.ConfigOptions, actionInputs...)
+		}
 	}
 
 	// Process each template
