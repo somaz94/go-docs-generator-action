@@ -33,6 +33,8 @@ jobs:
           features: 'Feature 1,Feature 2,Feature 3'
           requirements: 'Go 1.21 or higher'
           installation_steps: 'go get github.com/somaz94/go-docs-generator-action'
+          license: 'MIT'
+          language: 'Go'
           usage_example: |
             uses: somaz94/go-docs-generator-action@v1
             with:
