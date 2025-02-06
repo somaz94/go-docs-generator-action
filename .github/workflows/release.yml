@@ -58,20 +58,15 @@ jobs:
 
       - name: "🏷️ Update major version tag"
         run: |
-          # Get the current tag (e.g., v1.2.3)
           CURRENT_TAG=${{ github.ref_name }}
-          
           # Extract major version (e.g., v1)
-          MAJOR_VERSION="v${CURRENT_TAG#v}"
-          MAJOR_VERSION="v${MAJOR_VERSION%%.*}"
+          MAJOR_VERSION="${CURRENT_TAG%%.*}"  # v1.0.1 -> v1
           
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          # Delete existing major version tag (local and remote) if it exists
           git tag -d $MAJOR_VERSION || true
           git push origin :refs/tags/$MAJOR_VERSION || true
           
-          # Create new major version tag pointing to the current commit
           git tag -a $MAJOR_VERSION -m "Update major version tag to ${CURRENT_TAG}"
           git push origin $MAJOR_VERSION --force
