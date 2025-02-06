@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout infrastructure repository
         uses: actions/checkout@v4
-        
+
       - name: Generate documentation
         uses: somaz94/go-docs-generator-action@v1
         with:
@@ -50,24 +50,24 @@ jobs:
           echo "📝 Checking generated documentation..."
           
           # 출력 디렉토리 존재 확인
-          if [ ! -d "test/docs" ]; then
+          if [ ! -d "docs" ]; then
             echo "❌ Output directory not found!"
             exit 1
           fi
           
           # README.md 파일들 존재 확인
           for file in "README.md" "README-detailed.md"; do
-            if [ ! -f "test/docs/$file" ]; then
+            if [ ! -f "tdocs/$file" ]; then
               echo "❌ $file not generated!"
               exit 1
             fi
             
             # 파일 내용 출력z
             echo "📄 Generated $file content:"
-            cat "test/docs/$file"
+            cat "docs/$file"
             
             # 파일 크기 확인
-            if [ ! -s "test/docs/$file" ]; then
+            if [ ! -s "docs/$file" ]; then
               echo "❌ $file is empty!"
               exit 1
             fi
