@@ -17,11 +17,7 @@ jobs:
     steps:
       - name: Checkout infrastructure repository
         uses: actions/checkout@v4
-
-      - name: Create Test File
-        run: |
-          echo "$(date +%s)-$RANDOM" > test/test1.txt
-
+        
       - name: Generate documentation
         uses: somaz94/go-docs-generator-action@v1
         with:
