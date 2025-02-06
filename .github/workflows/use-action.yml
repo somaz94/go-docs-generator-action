@@ -82,6 +82,6 @@ jobs:
           user_name: 'GitHub Action'
           commit_message: 'Update documentation'
           branch: 'main'
-          repository_path: 'test/docs/'
+          repository_path: 'docs/'
           # file_pattern: '.'
 
