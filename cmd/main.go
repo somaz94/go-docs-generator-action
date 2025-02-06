@@ -48,9 +48,9 @@ func main() {
 			if len(parts) == 4 {
 				configOptions = append(configOptions, template.ConfigOption{
 					Name:        parts[0],
-					Type:        parts[1],
-					Default:     parts[2],
-					Description: parts[3],
+					Required:    parts[1] == "true",
+					Description: parts[2],
+					Default:     parts[3],
 				})
 			}
 		}

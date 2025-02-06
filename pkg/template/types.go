@@ -41,9 +41,9 @@ type DetailedReadmeData struct {
 // ConfigOption represents a configuration option
 type ConfigOption struct {
 	Name        string
-	Type        string
-	Default     string
+	Required    bool
 	Description string
+	Default     string
 }
 
 // Contributor represents a project contributor
@@ -75,9 +75,9 @@ func GetActionInputs() ([]ConfigOption, error) {
 	for name, input := range action.Inputs {
 		options = append(options, ConfigOption{
 			Name:        name,
-			Type:        "string", // GitHub Actions inputs are always strings
-			Default:     input.Default,
+			Required:    input.Required,
 			Description: input.Description,
+			Default:     input.Default,
 		})
 	}
 
