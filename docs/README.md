@@ -1,6 +1,14 @@
 # My Project
 
+# Overview
+
 My awesome project
+
+## Inputs
+
+| Input | Required | Description | Default |
+|-------|----------|-------------|---------|
+
 
 ## 🚀 Features
 
@@ -37,12 +45,6 @@ with:
   marketplace_slug: 'my-action'
 
 ```
-
-## ⚙️ Configuration
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-
 
 ## 📝 License
 

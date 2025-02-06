@@ -1,35 +1,25 @@
 # My Project
 
-[![License](https://img.shields.io/github/license/)](https://github.com/)
-![Latest Tag](https://img.shields.io/github/v/tag/)
-![Top Language](https://img.shields.io/github/languages/top/?color=green&logo=go&logoColor=b)
-[![GitHub Marketplace](https://img.shields.io/badge/Marketplace--blue?logo=github)](https://github.com/marketplace/actions/)
+[![License](https://img.shields.io/github/license/username/my-project)](https://github.com/username/my-project)
+![Latest Tag](https://img.shields.io/github/v/tag/username/my-project)
+![Top Language](https://img.shields.io/github/languages/top/username/my-project?color=green&logo=go&logoColor=b)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-My+Action-blue?logo=github)](https://github.com/marketplace/actions/my-action)
+
+## Overview
 
 My awesome project
 
-## 🚀 Features
+## Inputs
+
+| Input | Required | Description | Default |
+|-------|----------|-------------|---------|
 
 
-- Feature 1
+## Example Workflow
 
-- Feature 2
+Below is an example of how to use the **My Project** in your GitHub Actions workflow:
 
-- Feature 3
-
-
-## 📋 Requirements
-
-Go 1.21 or higher
-
-## 🔧 Installation
-
-```bash
-go get github.com/somaz94/go-docs-generator-action
-```
-
-## 💡 Usage
-
-```go
+```yaml
 uses: somaz94/go-docs-generator-action@v1
 with:
   output_path: docs
@@ -43,17 +33,25 @@ with:
 
 ```
 
-## ⚙️ Configuration
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
+## Features
 
 
-## 📝 License
+- Feature 1
+
+- Feature 2
+
+- Feature 3
+
+
+## Notes
+
+Go 1.21 or higher
+
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Contributors
+## Contributors
 
 
 
