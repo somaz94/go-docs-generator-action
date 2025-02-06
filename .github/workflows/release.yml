@@ -78,10 +78,9 @@ jobs:
           git pull origin main
           
           # Delete old tags
-          git push origin :refs/tags/${MAJOR_VERSION} || true
-          git tag -d ${MAJOR_VERSION} || true
-          
+          git tag -d ${MAJOR_VERSION} 
+          git push origin :refs/tags/${MAJOR_VERSION} 
+
           # Create new tag
           git tag -f ${MAJOR_VERSION} ${COMMIT_SHA}
-          git push origin -f ${MAJOR_VERSION}
-          git push origin main
+          git push origin -f ${MAJOR_VERSION}        
