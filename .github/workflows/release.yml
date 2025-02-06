@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"  # v1.0.1, v1.0.2 등만 매칭
-  workflow_dispatch:
 
 jobs:
   build:
@@ -14,43 +13,50 @@ jobs:
       - name: "📥 Check-out"
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 전체 히스토리 필요
+          fetch-depth: 0
 
       - name: Get first tag
         id: get_first_tag
         run: |
           # 시맨틱 버전 태그 중 가장 최신 버전 찾기 (v1 제외)
-          latest_tag="$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -n1)"
+          latest_tag="${{ github.ref_name }}"
           echo "LATEST_TAG=${latest_tag}" >> "$GITHUB_ENV"
           # 첫 번째 태그는 v1.0.0으로 고정
           echo "FIRST_TAG=v1.0.0" >> "$GITHUB_ENV"
 
-      - name: Generate changelog
-        id: generate-release-changelog
+      - name: Generate changelog for release
+        id: changelog
         uses: janheinrichmerker/action-github-changelog-generator@v2.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          futureRelease: ${{ github.event.release.tag_name || env.LATEST_TAG }}
-          output: CHANGELOG.md
-          sinceTag: ${{ env.FIRST_TAG }}  # v1.0.0과 같은 구체적인 버전 태그
-          # excludeTags: "v1,v2"  # 명시적으로 제외할 태그
+          futureRelease: ${{ env.LATEST_TAG }}
+          sinceTag: ${{ env.FIRST_TAG }}
           excludeTagsRegex: "^v[0-9]$"
+          output: RELEASE.md
+
+      - name: Read changelog
+        id: read_changelog
+        run: |
+          CHANGELOG=$(cat RELEASE.md)
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: "🚀 Create GitHub release"
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
-          body: ${{ steps.generate-release-changelog.outputs.changelog }}
+          body: ${{ env.CHANGELOG }}
 
       - name: "🏷️ Update major version tag"
         run: |
           # Get the current tag (e.g., v1.2.3)
-          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          CURRENT_TAG=${{ github.ref_name }}
           
           # Extract major version (e.g., v1)
           MAJOR_VERSION="v${CURRENT_TAG#v}"
