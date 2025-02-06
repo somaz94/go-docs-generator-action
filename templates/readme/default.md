@@ -1,6 +1,16 @@
 # {{ .ProjectName }}
 
+# Overview
+
 {{ .Description }}
+
+## Inputs
+
+| Input | Required | Description | Default |
+|-------|----------|-------------|---------|
+{{ range .ConfigOptions }}
+| `{{ .Name }}` | {{ .Required }} | {{ .Description }} | {{ .Default }} |
+{{ end }}
 
 ## 🚀 Features
 
@@ -23,14 +33,6 @@
 ```{{ .Language }}
 {{ .UsageExample }}
 ```
-
-## ⚙️ Configuration
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-{{ range .ConfigOptions }}
-| {{ .Name }} | {{ .Type }} | {{ .Default }} | {{ .Description }} |
-{{ end }}
 
 ## 📝 License
 
