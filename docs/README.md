@@ -32,7 +32,7 @@ go get github.com/somaz94/go-docs-generator-action
 
 ## 💡 Usage
 
-```go
+```Go
 uses: somaz94/go-docs-generator-action@v1
 with:
   output_path: docs
