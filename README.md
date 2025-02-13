@@ -9,6 +9,8 @@
 
 The **Go Docs Generator Action** is a GitHub Action that automates documentation generation for your projects. Written in Go, it provides a flexible and efficient way to create and maintain documentation in your GitHub repositories. This action is particularly useful for generating consistent README files and other documentation with customizable templates.
 
+<br/>
+
 ## Inputs
 
 | Input | Required | Description | Default |
@@ -32,6 +34,8 @@ The **Go Docs Generator Action** is a GitHub Action that automates documentation
 | `config_options` | No | Configuration options | - |
 | `contributors` | No | List of contributors | - |
 | `action_config` | No | Include action.yml inputs in config | false |
+
+<br/>
 
 ## Example Workflow
 
@@ -66,6 +70,8 @@ with:
 ...
 ```
 
+<br/>
+
 ## Features
 
 - Written in Go for better performance and reliability
@@ -77,6 +83,8 @@ with:
 - GitHub Marketplace integration
 - Detailed configuration options
 
+<br/>
+
 ## Notes
 
 - Templates are located in the `templates` directory
@@ -85,9 +93,13 @@ with:
 - Configuration options can be customized via inputs
 - Action inputs can be included in configuration documentation
 
+<br/>
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+<br/>
 
 ## Contributing
 
