@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/username/my-project)](https://github.com/username/my-project)
 ![Latest Tag](https://img.shields.io/github/v/tag/username/my-project)
-![Top Language](https://img.shields.io/github/languages/top/username/my-project?color=green&logo=go&logoColor=b)
+![Top Language](https://img.shields.io/github/languages/top/username/my-project?color=green&logo=Go&logoColor=b)
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-My+Action-blue?logo=github)](https://github.com/marketplace/actions/my-action)
 
 ## Overview
