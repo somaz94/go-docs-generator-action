@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.4](https://github.com/somaz94/go-docs-generator-action/tree/v1.0.4) (2025-02-18)
+
+[Full Changelog](https://github.com/somaz94/go-docs-generator-action/compare/v1.0.4...v1.0.4)
+
+**Merged pull requests:**
+
+- build\(deps\): bump golang from 1.23-alpine to 1.24-alpine in the docker-minor group [\#1](https://github.com/somaz94/go-docs-generator-action/pull/1) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.0.4](https://github.com/somaz94/go-docs-generator-action/tree/v1.0.4) (2025-02-13)
 
 [Full Changelog](https://github.com/somaz94/go-docs-generator-action/compare/v1.0.3...v1.0.4)
