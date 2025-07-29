@@ -1,11 +1,12 @@
 # Changelog
 
-## [v1.0.4](https://github.com/somaz94/go-docs-generator-action/tree/v1.0.4) (2025-02-18)
+## [v1.0.4](https://github.com/somaz94/go-docs-generator-action/tree/v1.0.4) (2025-07-29)
 
 [Full Changelog](https://github.com/somaz94/go-docs-generator-action/compare/v1.0.4...v1.0.4)
 
 **Merged pull requests:**
 
+- build\(deps\): bump super-linter/super-linter from 7 to 8 [\#2](https://github.com/somaz94/go-docs-generator-action/pull/2) ([dependabot[bot]](https://github.com/apps/dependabot))
 - build\(deps\): bump golang from 1.23-alpine to 1.24-alpine in the docker-minor group [\#1](https://github.com/somaz94/go-docs-generator-action/pull/1) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v1.0.4](https://github.com/somaz94/go-docs-generator-action/tree/v1.0.4) (2025-02-13)
