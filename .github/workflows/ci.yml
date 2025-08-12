@@ -27,7 +27,7 @@ jobs:
       TEST_TAG: localhost:5001/actions/go-git-commit-action:latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 10
 
@@ -162,7 +162,7 @@ jobs:
 
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v5
   #       with:
   #         fetch-depth: 10
 
