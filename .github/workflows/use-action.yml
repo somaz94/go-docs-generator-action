@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout infrastructure repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Generate documentation
         uses: somaz94/go-docs-generator-action@v1
